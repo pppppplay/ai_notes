@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>筆記標題｜AI 課堂筆記</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<!-- 1. 把 data-id 改成檔名（不含 .html），並在 assets/notes.js 加一筆資料 -->
+<body data-id="unitXX-topic">
+  <header class="site-header">
+    <div class="wrap">
+      <a class="site-title" href="../index.html">AI <span>課堂筆記</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">筆記</a>
+        <a href="../index.html#about">關於</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="note-head">
+      <div class="meta" id="note-meta"></div>
+      <h1>筆記標題</h1>
+    </div>
+
+    <article>
+      <!-- 2. 一句話重點 -->
+      <p class="tldr">一到兩句，說這單元在講什麼。</p>
+
+      <!-- 3. 重點整理：可以有多個 h2 -->
+      <h2>重點整理</h2>
+      <p>內容。</p>
+
+      <!-- 4. 例子 -->
+      <div class="example">
+        <strong>例子</strong>
+        <p>課堂或自己想到的例子。</p>
+      </div>
+
+      <!-- 5. 容易搞錯的地方 -->
+      <div class="pitfall">
+        <strong>容易搞錯</strong>
+        <p>第一次理解錯的地方。</p>
+      </div>
+
+      <!-- 6. 我的想法 -->
+      <h2>我的想法</h2>
+      <p>自己的心得。</p>
+
+      <!-- 7. 延伸資料 -->
+      <h2>延伸資料</h2>
+      <ul class="refs">
+        <li><a href="https://example.com">連結名稱</a>（網站或作者）</li>
+      </ul>
+    </article>
+
+    <nav class="pager" id="pager"></nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap"><a href="../index.html">回到筆記列表</a></div>
+  </footer>
+
+  <script src="../assets/notes.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI 課堂筆記</title>
+  <meta name="description" content="生成式 AI 課程的單元筆記與實作紀錄">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="index">
+  <header class="site-header">
+    <div class="wrap">
+      <a class="site-title" href="index.html">AI <span>課堂筆記</span></a>
+      <nav class="site-nav">
+        <a href="index.html">筆記</a>
+        <a href="#about">關於</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <h1>生成式 AI 課堂筆記</h1>
+      <p>每個單元整理成一頁，加上自己做過的實作紀錄。目前共 <span id="note-count">0</span> 篇。</p>
+    </section>
+
+    <div class="filters" id="filters"></div>
+    <ul class="note-list" id="note-list"></ul>
+
+    <section id="about">
+      <h2>關於這個網站</h2>
+      <p>這是我修生成式 AI 課程時的筆記。講義筆記整理每個單元的重點，實作紀錄寫作業怎麼做、遇到什麼問題。每篇都照同一套格式寫，規則放在專案的 <code>CLAUDE.md</code>。</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">AI 課堂筆記 · 純靜態網頁，放在 GitHub Pages</div>
+  </footer>
+
+  <script src="assets/notes.js"></script>
+</body>
+</html>

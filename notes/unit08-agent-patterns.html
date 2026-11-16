@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>教 AI 做事的方法｜AI 課堂筆記</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-id="unit08-agent-patterns">
+  <header class="site-header">
+    <div class="wrap">
+      <a class="site-title" href="../index.html">AI <span>課堂筆記</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">筆記</a>
+        <a href="../index.html#about">關於</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="note-head">
+      <div class="meta" id="note-meta"></div>
+      <h1>教 AI 做事的方法</h1>
+    </div>
+
+    <article>
+      <p class="tldr">AI Agent 沒有想像中神秘，就是把「我們平常做事的方法」寫成流程，讓 AI 照著做。</p>
+
+      <h2>AI Agent 是什麼</h2>
+      <p>教科書（Russell &amp; Norvig）的定義：能透過感測器感知環境，再透過致動器對環境採取行動的實體。</p>
+      <p>在 LLM 時代，課堂上的說法更直接：</p>
+      <pre><code>AI Agent = AI Model + Harness</code></pre>
+      <p>模型本身只會「接收 prompt → 一次寫完答案」。這就像要一個人寫文章不能按刪除鍵、不能修改，人也很難做到。我們實際做事時會：</p>
+      <ul>
+        <li>上網查資料、翻規定</li>
+        <li>拿計算機確認數字</li>
+        <li>寫完自己檢查、再修改</li>
+        <li>先想好步驟再動手</li>
+      </ul>
+      <p>Harness 就是把這些動作包起來，讓 AI 自動做完。<strong>RAG 其實也算一種 Agent</strong>：由程式自動找相關資料再交給模型。</p>
+
+      <h2>四種設計模式（Agentic Design Patterns）</h2>
+      <p>吳恩達（Andrew Ng）在 2024 年提出的分類：</p>
+      <table>
+        <thead><tr><th>模式</th><th>做法</th><th>對應人做事的方式</th></tr></thead>
+        <tbody>
+          <tr><td>反思（Reflection）</td><td>一個 LLM 寫初稿，另一個 LLM 評論，再回去修改，可以重複幾次</td><td>寫完請人幫忙看</td></tr>
+          <tr><td>工具使用（Tool Use）</td><td>LLM 不擅長的事交給工具，例如精確計算、實際資料、網路搜尋</td><td>拿計算機、查資料</td></tr>
+          <tr><td>規劃（Planning）</td><td>先想一想、打草稿，拆好步驟再回答</td><td>先列大綱</td></tr>
+          <tr><td>多代理合作（Multiagent）</td><td>多個 Agent 分工，常有一個像 PM 的 LLM 負責分配工作</td><td>團隊分工</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Reflection</h3>
+      <p>分成「作者」和「評論員」兩個角色。評論員也可以換成不同的模型，比較不會用同樣的盲點看自己的答案。</p>
+
+      <h3>Tool Use 的流程</h3>
+      <p>LLM 實際上參與兩個階段，中間真正執行工具的是我們寫的程式：</p>
+      <ol class="flow">
+        <li>告訴 LLM 有哪些工具（函式）可以用、需要什麼參數</li>
+        <li>LLM 第一次回答：決定要呼叫哪個工具、參數是什麼</li>
+        <li>程式執行函式，拿到 JSON 格式的結果</li>
+        <li>把結果放進 prompt，LLM 第二次回答：根據資料回答使用者</li>
+      </ol>
+
+      <h3>Planning</h3>
+      <p>思維鏈（Chain-of-Thought, CoT）是有名的方法：有系統地拆解問題、找出關聯、更完整地涵蓋各個面向。DeepSeek-R1 會先產生用 <code>&lt;think&gt;</code> 標籤包起來的思考內容，再正式回答。</p>
+      <p>課堂提到：通用模型的目標是「任何問題都能好好思考」，如果只處理單一類型的任務，我們自己設計的思考流程有可能做得更好。</p>
+
+      <div class="example">
+        <strong>例子：飲料店 ChatBot</strong>
+        <p>使用者說「我想訂 20 杯麥茶」。LLM 決定呼叫 <code>quote_order("麥茶", 20)</code>，程式查價格和庫存後回傳單價 30、總價 600。LLM 再根據這份資料回答「20 杯麥茶一共 600 元」。</p>
+        <p>價格是程式查的、總價是程式算的，LLM 只負責理解問題和說明結果。</p>
+      </div>
+
+      <h2>MCP 與 A2A</h2>
+      <table>
+        <thead><tr><th></th><th>MCP</th><th>A2A</th></tr></thead>
+        <tbody>
+          <tr><td>全名</td><td>Model Context Protocol</td><td>Agent-to-Agent</td></tr>
+          <tr><td>提出</td><td>Anthropic</td><td>Google</td></tr>
+          <tr><td>處理的事</td><td>Agent 和外部工具、資料來源怎麼溝通</td><td>Agent 和 Agent 之間怎麼交換資訊、協作</td></tr>
+        </tbody>
+      </table>
+      <p>工具不一定要自己寫，很多平台可以直接接上搜尋、email、桌面檔案等工具，也能分享給別人使用。</p>
+
+      <div class="pitfall">
+        <strong>容易搞錯</strong>
+        <p>我原本以為 Tool Use 是「模型自己去執行程式」。其實模型只輸出文字（工具名稱和參數），執行函式的是我們的程式，結果也要由程式再交回給模型。</p>
+      </div>
+
+      <h2>延伸：Vibe Coding</h2>
+      <p>Andrej Karpathy 在 2025 年 2 月創的詞：用自然語言把需求丟給 LLM 產生整段程式，不看 diff、有錯就把錯誤訊息貼回去。</p>
+      <ul>
+        <li><strong>適合：</strong>週末小專案、給自己用的小工具、試做原型</li>
+        <li><strong>不適合：</strong>要正式上線的程式、不檢查就可能出事的程式</li>
+        <li>Vibe Coding 不等於「AI 輔助寫程式」，後者人還是主導</li>
+      </ul>
+
+      <h2>我的想法</h2>
+      <p>以前覺得 Agent 是很複雜的系統，這單元讓我發現它其實就是把流程拆開：先查、再算、再檢查。寫作業時最有感的是 Tool Use：直接問 LLM 大數乘法或今天日期常常會錯，交給工具之後就穩定很多。</p>
+
+      <h2>延伸資料</h2>
+      <ul class="refs">
+        <li><a href="https://youtu.be/sal78ACtGTc">What's next for AI agentic workflows</a>（Andrew Ng）</li>
+        <li><a href="https://www.dwarkesh.com/p/andrej-karpathy">Andrej Karpathy — AGI is Still a Decade Away</a>（Dwarkesh Podcast）</li>
+        <li><a href="https://modelcontextprotocol.io">Model Context Protocol 官方網站</a>（Anthropic）</li>
+      </ul>
+    </article>
+
+    <nav class="pager" id="pager"></nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap"><a href="../index.html">回到筆記列表</a></div>
+  </footer>
+
+  <script src="../assets/notes.js"></script>
+</body>
+</html>

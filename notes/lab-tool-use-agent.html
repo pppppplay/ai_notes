@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>學生生活小管家：Tool Use Agent｜AI 課堂筆記</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-id="lab-tool-use-agent">
+  <header class="site-header">
+    <div class="wrap">
+      <a class="site-title" href="../index.html">AI <span>課堂筆記</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">筆記</a>
+        <a href="../index.html#about">關於</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="note-head">
+      <div class="meta" id="note-meta"></div>
+      <h1>學生生活小管家：Tool Use Agent</h1>
+    </div>
+
+    <article>
+      <p class="tldr">做一個會自己選工具的 Agent，幫大學生算 GPA、倒數考試天數、分帳和推薦午餐，用 Gradio 展示。</p>
+
+      <h2>做了什麼</h2>
+      <p>大學生常問的問題需要精確計算或知道今天日期，直接問 LLM 容易錯，所以準備了六個工具：</p>
+      <table>
+        <thead><tr><th>工具</th><th>功能</th></tr></thead>
+        <tbody>
+          <tr><td><code>calculator</code></td><td>計算數學式</td></tr>
+          <tr><td><code>get_today</code></td><td>取得今天日期</td></tr>
+          <tr><td><code>days_until</code></td><td>計算距離某天還有幾天</td></tr>
+          <tr><td><code>gpa_calculator</code></td><td>百分制成績換算 4.3 制 GPA</td></tr>
+          <tr><td><code>pick_lunch</code></td><td>依預算推薦午餐</td></tr>
+          <tr><td><code>wiki_search</code></td><td>查中文維基百科</td></tr>
+        </tbody>
+      </table>
+      <p>使用的技術：Groq 的 <code>gpt-oss-120b</code>（透過 AISuite 呼叫）、Gradio、Google Colab。</p>
+
+      <h2>怎麼運作</h2>
+      <ol class="flow">
+        <li>把工具的名稱和參數說明寫進 system prompt</li>
+        <li>LLM 每一步輸出一個 JSON，例如 <code>{"action": "calculator", "action_input": {"expression": "3480/5"}}</code></li>
+        <li>程式執行對應的函式，結果用 <code>Observation</code> 傳回給 LLM</li>
+        <li>LLM 決定要再用工具，還是輸出 <code>final_answer</code></li>
+        <li>最多重複 6 步，避免無限迴圈</li>
+      </ol>
+      <p>因為是迴圈，可以連續使用多個工具。「離期末考還有幾天、每天要讀幾章」會依序用 <code>get_today</code> → <code>days_until</code> → <code>calculator</code>。</p>
+
+      <div class="example">
+        <strong>例子：有工具 vs 沒工具</strong>
+        <p>問「3.7 的 2.9 次方乘以根號 77，算到小數點後 6 位」：</p>
+        <p>直接問 LLM：390.307945<br>Agent 用 calculator：389.969249（正確）</p>
+      </div>
+
+      <h2>遇到的問題</h2>
+      <table>
+        <thead><tr><th>問題</th><th>原因</th><th>怎麼解決</th></tr></thead>
+        <tbody>
+          <tr><td>429 Rate limit</td><td>Groq 免費帳號每分鐘有 token 上限</td><td>從錯誤訊息讀出要等幾秒，自動等待後重試</td></tr>
+          <tr><td>400 tool_use_failed</td><td>模型改用內建的 function calling 格式輸出，被 API 擋下</td><td>從錯誤內容取出模型選的工具和參數，轉回自己的 JSON 格式繼續執行</td></tr>
+          <tr><td>沒用工具就回答 GPA 3.27（正確是 3.80）</td><td>格式錯誤後，模型直接編了一個答案</td><td>還沒用過工具就想回答時，程式會先要求確認一次</td></tr>
+        </tbody>
+      </table>
+
+      <div class="pitfall">
+        <strong>容易搞錯</strong>
+        <p>看到 Agent 回答得很流暢，不代表它真的有用工具。要看執行過程有沒有工具紀錄，所以 Gradio 介面右邊另外顯示每一步用了什麼工具、得到什麼結果。</p>
+      </div>
+
+      <h2>我的想法</h2>
+      <p>原本以為接上工具就結束了，實際跑起來才發現大部分時間都在處理模型「不照格式輸出」的狀況。錯誤處理寫得越完整，Agent 才越可靠。</p>
+
+      <h2>延伸資料</h2>
+      <ul class="refs">
+        <li><a href="https://colab.research.google.com/drive/1WnRegZcO5sMCeVNxz6d9GDtEbt31Fn1n?usp=sharing">作業 Colab</a>（自己的程式碼）</li>
+        <li><a href="https://github.com/andrewyng/aisuite">AISuite</a>（GitHub）</li>
+        <li><a href="https://www.gradio.app/docs">Gradio 文件</a>（Gradio）</li>
+      </ul>
+    </article>
+
+    <nav class="pager" id="pager"></nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap"><a href="../index.html">回到筆記列表</a></div>
+  </footer>
+
+  <script src="../assets/notes.js"></script>
+</body>
+</html>

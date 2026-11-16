@@ -18,6 +18,15 @@ const NOTES = [
     date: "2026-11-09",
     tags: ["Tool Use", "Gradio", "Groq"],
     summary: "讓 AI 自己選工具算 GPA、倒數考試、分帳，以及過程中遇到的問題。"
+  },
+  {
+    id: "unit09-ai-project-rules",
+    type: "講義",
+    unit: "09",
+    title: "用 AGENTS.md / CLAUDE.md 讓 AI 理解專案",
+    date: "2026-11-16",
+    tags: ["AI Agent", "CLAUDE.md", "Workflow"],
+    summary: "建立專案規則檔案讓 AI 理解架構，學會用標準化流程快速新增網頁與筆記。"
   }
 ];
 

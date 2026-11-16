@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>用 AGENTS.md / CLAUDE.md 讓 AI 理解專案｜AI 課堂筆記</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-id="unit09-ai-project-rules">
+  <header class="site-header">
+    <div class="wrap">
+      <a class="site-title" href="../index.html">AI <span>課堂筆記</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">筆記</a>
+        <a href="../index.html#about">關於</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="note-head">
+      <div class="meta" id="note-meta"></div>
+      <h1>用 AGENTS.md / CLAUDE.md 讓 AI 理解專案</h1>
+    </div>
+
+    <article>
+      <p class="tldr">這週作業要透過建立專案規則檔案，讓 AI 讀完後知道如何持續開發，擺脫每次都要重新講述需求的困擾。</p>
+
+      <h2>與 Vibe Coding 的差別</h2>
+      <p>「Vibe Coding」通常是指把一個網頁或功能直接做出來；而這次的做法是建立一套專案規則（如 <code>CLAUDE.md</code> 或 <code>AGENTS.md</code>），讓 AI 掌握架構後，之後就能依照同樣的方式快速新增頁面或功能。</p>
+
+      <h2>規則可以寫什麼</h2>
+      <p>為了讓 AI 每次產出的結果符合預期，規則檔案中通常會包含以下重點：</p>
+      <ul>
+        <li><strong>專案目的</strong>：說明這個專案是用來做什麼、讀者是誰。</li>
+        <li><strong>網頁風格</strong>：定義版面配置、字型與顏色變數規範。</li>
+        <li><strong>頁面結構與順序</strong>：規定每個頁面固定的標籤與段落順序。</li>
+        <li><strong>檔案命名與位置</strong>：明確規範不同類型檔案的存放資料夾與命名格式。</li>
+        <li><strong>AI 修改原則</strong>：哪些可以做、哪些絕對不能改（例如不隨意更改首頁結構）。</li>
+      </ul>
+
+      <div class="example">
+        <strong>例子</strong>
+        <p>課堂範例為「呆一布講義」網站（<a href="https://diveai-lab.github.io/diveai-lessons" target="_blank" rel="noopener">https://diveai-lab.github.io/diveai-lessons</a>）。而本筆記網站本身就是最好的實踐例子：新增筆記只要複製範本、照固定段落填寫，最後在 <code>notes.js</code> 加一筆資料就完成了。</p>
+      </div>
+
+      <div class="pitfall">
+        <strong>容易搞錯</strong>
+        <p>規則寫得太模糊（例如只寫「風格要好看」），導致 AI 每次做出來的排版都不一樣。正確做法是要寫出具體的檔名格式、段落順序以及顏色變數限制。</p>
+      </div>
+
+      <h2>我的想法</h2>
+      <p>一開始花時間寫規則確實比較繁瑣，但當規則建立好之後，後續新增內容的速度會變得非常快，而且每一頁的格式都能保持高度一致，非常省心。</p>
+
+      <h2>延伸資料</h2>
+      <ul class="refs">
+        <li><a href="https://diveai-lab.github.io/diveai-lessons" target="_blank" rel="noopener">呆一布講義</a>（DiveAI Lab）</li>
+      </ul>
+    </article>
+
+    <nav class="pager" id="pager"></nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap"><a href="../index.html">回到筆記列表</a></div>
+  </footer>
+
+  <script src="../assets/notes.js"></script>
+</body>
+</html>
